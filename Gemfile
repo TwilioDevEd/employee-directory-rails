@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.5'
 gem 'rake', '< 11.0'
 gem 'pg'
+gem 'fuzzily'
 
 group :assets do
   gem 'sass-rails', '~> 5.0'
@@ -19,4 +20,6 @@ gem 'twilio-ruby'
 group :test do
   gem 'byebug'
   gem 'rspec-rails'
+  gem 'rspec-collection_matchers'
+  gem 'factory_girl_rails'
 end
