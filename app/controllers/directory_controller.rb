@@ -20,10 +20,16 @@ class DirectoryController < ApplicationController
       end
     end
 
-    render xml: "<Response><Message>#{message}</Message></Response>"
+    render xml: twiml_response(message)
   end
 
   private
+
+  def twiml_response(message)
+    Twilio::TwiML::Response.new do |response|
+      response.Message message
+    end.to_xml
+  end
 
   def build_employee_message(employee)
     [
