@@ -1,0 +1,54 @@
+.chapter(data-title='Warm Transfer Rails')
+  .step(
+    data-title='What Are We Building?',
+    data-file='config/routes.rb')
+    :markdown
+      ## Employee Directory
+      ![Employee Directory](//twilio-docs-content.s3.amazonaws.com/employee-directory.png)
+
+      Learn how to implement an employee directory that you can query using SMS.
+      Request information from anyone at your company just by sending a text message
+      to a [Twilio Number](//www.twilio.com/help/faq/phone-numbers)
+
+      Here is how it works at a high level:
+
+      1. We configure one of our Twilio numbers to make a request to our server when an SMS is received.
+
+      1. The user sends a SMS with an employee's name, last name or both to the Twilio number.
+
+      1. If an exact match is found, the employee's information is returned.
+
+      1. If no exact match is found, the user receives a suggested match and the option to obtain the suggested employee's information.
+
+      Let's get started!
+
+      ---
+
+      **See Also:**
+      * [Getting Started with Ruby on Rails](http://guides.rubyonrails.org/getting_started.html)
+      * [Getting started with the Twilio Ruby gem](//twilio-ruby.readthedocs.org/en/latest/index.html#getting-started)
+
+  .step(
+    data-title="Setting Up the SMS Web Hook",
+    data-file='config/routes.rb',
+    data-highlight='2')
+    :markdown
+      ## Setting Up the SMS Web Hook
+
+      You will need to configure the SMS webhook of the Twilio number where clients
+      will send SMS asking for employee information.
+      ![Configure SMS](//howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)
+
+      You need to expose your localhost using a tool like [ngrok](//ngrok.com/).
+      Now your SMS URL should look something like this:
+
+      ```
+      https://<subdomain>.ngrok.io/directory/search
+      ```
+      
+  .step(
+    data-title="Handling Twilio's SMS Request",
+    data-file='app/controllers/directory_controller.rb',
+    data-highlight='1')
+    :markdown
+      ## Handling Twilio's SMS Request

@@ -1,0 +1,6 @@
+{
+    "title": "Employee Directory Rails",
+    "repo": "TwilioDevEd/employee-directory-rails",
+    "description": "Request employee information from your directory with SMS and Twilio!",
+    "heroku": false
+}
