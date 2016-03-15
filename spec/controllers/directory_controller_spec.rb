@@ -18,7 +18,13 @@ describe DirectoryController do
       it "renders a message with the employee's information" do
         document = Nokogiri::XML(response.body)
         expect(document.at_xpath('//Response//Message//Body').content)
-        .to include('San Francisco')
+          .to include('San Francisco')
+      end
+
+      it "renders a message with media information" do
+        document = Nokogiri::XML(response.body)
+        expect(document.at_xpath('//Response//Message//Media').content)
+          .to eq('http://example.com/robert-williams.png')
       end
 
       it 'releases the session' do
@@ -38,7 +44,7 @@ describe DirectoryController do
       it "renders a message with the most relevant employee" do
         document = Nokogiri::XML(response.body)
         expect(document.at_xpath('//Response//Message//Body').content)
-        .to include('Did you mean Robert Williams')
+          .to include('Did you mean Robert Williams')
       end
 
       it 'stores a session with the most relevant employee' do
@@ -58,7 +64,7 @@ describe DirectoryController do
       it "renders a message with the employee's information" do
         document = Nokogiri::XML(response.body)
         expect(document.at_xpath('//Response//Message//Body').content)
-        .to include('San Francisco')
+          .to include('San Francisco')
       end
     end
 
@@ -68,7 +74,7 @@ describe DirectoryController do
 
         document = Nokogiri::XML(response.body)
         expect(document.at_xpath('//Response//Message//Body').content)
-        .to include('We did not find the employee')
+          .to include('We did not find the employee')
       end
     end
   end

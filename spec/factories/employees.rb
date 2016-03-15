@@ -6,5 +6,6 @@ FactoryGirl.define do
     city         'San Francisco'
     phone_number '+1-202-555-0143'
     email        { "#{first_name}.#{last_name}@twilio.com".downcase }
+    image_url    'http://example.com/robert-williams.png'
   end
 end
