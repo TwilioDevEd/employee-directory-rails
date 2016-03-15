@@ -5,19 +5,14 @@ class DirectoryController < ApplicationController
     from  = params["From"]
     query = session[from] || params["Body"]
 
-    employees = Employee.perfect_match(query)
     message = CreateMessage.for_no_match
 
-    if employees.present?
-      message = CreateMessage.with_employee_info(employees.first)
+    if employee = Employee.perfect_match(query).first
+      message = CreateMessage.with_employee_info(employee)
       session[from] = nil
-    else
-      employees = Employee.partial_match(query)
-
-      if employees.present?
-        session[from] = employees.first.name
-        message = CreateMessage.with_suggestion(employees.first)
-      end
+    elsif employee = Employee.partial_match(query).first
+      session[from] = employee.name
+      message = CreateMessage.with_suggestion(employee)
     end
 
     render xml: twiml_response(message)
