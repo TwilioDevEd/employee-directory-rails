@@ -22,7 +22,7 @@ This project is built using the [Ruby on Rails](http://rubyonrails.org/) web fra
    $ bundle
    ```
 
-1. Create database and run migrations
+1. Create the database and run migrations
 
    _Make sure you have installed [PostgreSQL](http://www.postgresql.org/). If on
    a Mac, I recommend [Postgres.app](http://postgresapp.com)_.
@@ -32,6 +32,7 @@ This project is built using the [Ruby on Rails](http://rubyonrails.org/) web fra
    ```
 
 1. Make sure the tests succeed
+
    ```bash
    $ bundle exec rspec
    ```
@@ -56,7 +57,8 @@ This project is built using the [Ruby on Rails](http://rubyonrails.org/) web fra
 
 1. Configure Twilio to call your webhooks
 
-  You will also need to configure Twilio to call your application when calls are received on your _Twilio Number_. The **SMS & MMS Request URL** should look something like this:
+  You will also need to configure Twilio to call your application when calls are received
+  on your _Twilio Number_. The **SMS & MMS Request URL** should look something like this:
 
   ```
   http://<sub-domain>.ngrok.io/directory/search
