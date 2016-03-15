@@ -2,7 +2,9 @@ require 'rails_helper'
 
 describe DirectoryController do
   describe '#search' do
-    before { create(:employee) }
+    before do
+      create(:employee)
+    end
 
     context 'when the criteria fits a perfect match' do
       before do

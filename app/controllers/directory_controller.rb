@@ -2,16 +2,16 @@ class DirectoryController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def search
-    from  = params["From"]
-    query = session[from] || params["Body"]
+    suggestion = Suggestion.new(params["From"], session)
+    body       = params["Body"]
+    query      = body.downcase == 'yes' ? suggestion.fetch : body
 
     message = CreateMessage.for_no_match
-
     if employee = Employee.perfect_match(query).first
+      suggestion.destroy
       message = CreateMessage.with_employee_info(employee)
-      session[from] = nil
     elsif employee = Employee.partial_match(query).first
-      session[from] = employee.name
+      suggestion.store(employee.name)
       message = CreateMessage.with_suggestion(employee)
     end
 
