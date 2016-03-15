@@ -1,13 +1,13 @@
-class Suggestion < Struct.new(:from, :session)
+class Suggestion < Struct.new(:cookies)
   def store(employee_name)
-    session[from] = employee_name
+    cookies[:suggestion] = employee_name
   end
 
   def fetch
-    session.fetch(from, '')
+    cookies.fetch(:suggestion, '')
   end
 
   def destroy
-    session[from] = nil
+    cookies[:suggestion] = nil
   end
 end

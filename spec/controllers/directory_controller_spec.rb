@@ -27,8 +27,8 @@ describe DirectoryController do
           .to eq('http://example.com/robert-williams.png')
       end
 
-      it 'releases the session' do
-        expect(session["+12025550143"]).to be_nil
+      it 'releases the twilio cookie' do
+        expect(cookies[:suggestion]).to be_nil
       end
     end
 
@@ -47,14 +47,15 @@ describe DirectoryController do
           .to include('Did you mean Robert Williams')
       end
 
-      it 'stores a session with the most relevant employee' do
-        expect(session["+12025550143"]).to eq('Robert Williams')
+      it 'stores a twilio cookie with the most relevant employee' do
+        expect(cookies[:suggestion]).to eq('Robert Williams')
       end
     end
 
     context 'when the criteria is "yes"' do
       before do
-        post :search, { Body: "Yes", From: "+12025550143" }, { "+12025550143" => "Robert Williams" }
+        request.cookies[:suggestion] = 'Robert Williams'
+        post :search, { Body: "Yes", From: "+12025550143" }
       end
 
       it 'responds with ok' do

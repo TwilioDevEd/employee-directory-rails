@@ -2,7 +2,7 @@ class DirectoryController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def search
-    suggestion = Suggestion.new(params["From"], session)
+    suggestion = Suggestion.new(cookies)
     body       = params["Body"]
     query      = body.downcase == 'yes' ? suggestion.fetch : body
 
