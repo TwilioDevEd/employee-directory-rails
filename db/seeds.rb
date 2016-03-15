@@ -13,7 +13,7 @@ Employee.create([
     job_title: 'Facility and Employee Experiences Coordinator',
     city: 'San Francisco',
     phone_number: '+1-202-555-0143',
-    email: 'rwilliams@twilio.com',
+    email: 'rwilliams@example.com',
     image_url: 'http://bit.ly/twilio-rob-williams'
   },
   {
@@ -22,7 +22,7 @@ Employee.create([
     job_title: 'QA Manager',
     city: 'New York',
     phone_number: '+1-202-928-0143',
-    email: 'fmuniz@twilio.com',
+    email: 'fmuniz@example.com',
     image_url: 'http://bit.ly/twilio-frank-muniz'
   }
 ])
