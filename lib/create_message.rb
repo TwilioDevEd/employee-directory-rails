@@ -3,11 +3,11 @@ module CreateMessage
 
   def with_employee_info(employee)
     [
-      "#{employee.name}",
-      "#{employee.job_title}",
-      "#{employee.city}",
-      "#{employee.phone_number}",
-      "#{employee.email}"
+      employee.name,
+      employee.job_title,
+      employee.city,
+      employee.phone_number,
+      employee.email
     ].join("\n")
   end
 

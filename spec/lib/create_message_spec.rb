@@ -13,11 +13,11 @@ describe CreateMessage do
   describe '.with_employee_info' do
     it "creates a message with the employee's information" do
       expect(described_class.with_employee_info(employee)).to eq([
-        "Robert Williams",
-        "Facility and Employee Experiences Coordinator",
-        "San Francisco",
-        "+1-202-555-0143",
-        "robert.williams@twilio.com"
+        'Robert Williams',
+        'Facility and Employee Experiences Coordinator',
+        'San Francisco',
+        '+1-202-555-0143',
+        'robert.williams@twilio.com'
       ].join("\n"))
     end
   end
