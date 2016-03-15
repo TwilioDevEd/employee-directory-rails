@@ -15,7 +15,7 @@ describe DirectoryController do
 
       it "renders a message with the employee's information" do
         document = Nokogiri::XML(response.body)
-        expect(document.at_xpath('//Response//Message').content)
+        expect(document.at_xpath('//Response//Message//Body').content)
         .to include('San Francisco')
       end
 
@@ -35,7 +35,7 @@ describe DirectoryController do
 
       it "renders a message with the most relevant employee" do
         document = Nokogiri::XML(response.body)
-        expect(document.at_xpath('//Response//Message').content)
+        expect(document.at_xpath('//Response//Message//Body').content)
         .to include('Did you mean Robert Williams')
       end
 
@@ -55,7 +55,7 @@ describe DirectoryController do
 
       it "renders a message with the employee's information" do
         document = Nokogiri::XML(response.body)
-        expect(document.at_xpath('//Response//Message').content)
+        expect(document.at_xpath('//Response//Message//Body').content)
         .to include('San Francisco')
       end
     end
@@ -65,7 +65,7 @@ describe DirectoryController do
         post :search, { Body: "Frank" }
 
         document = Nokogiri::XML(response.body)
-        expect(document.at_xpath('//Response//Message').content)
+        expect(document.at_xpath('//Response//Message//Body').content)
         .to include('We did not find the employee')
       end
     end

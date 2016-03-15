@@ -27,7 +27,9 @@ class DirectoryController < ApplicationController
 
   def twiml_response(message)
     Twilio::TwiML::Response.new do |response|
-      response.Message message
+      response.Message do |msg|
+        msg.Body  message
+      end
     end.to_xml
   end
 end
