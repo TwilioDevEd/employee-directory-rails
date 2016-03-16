@@ -40,7 +40,7 @@ describe CreateMessage do
       }
 
       expect(described_class.with_suggestions(employees)).to eq([
-        'We found multiple people, press:',
+        'We found multiple people, reply with:',
         '1 for Andy Williams',
         '2 for Bob Williams',
         '3 for William Colt',
