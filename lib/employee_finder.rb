@@ -8,13 +8,34 @@ class EmployeeFinder
     end
   end
 
-  class PartialMatch
+  class SinglePartialMatch
     def self.match(query, suggestion)
-      if employee = Employee.partial_match(query).first
+      employees = Employee.partial_match(query)
+      if employees.count == 1
+        employee = employees.first
         suggestion.store(employee.name)
         [CreateMessage.with_suggestion(employee), nil]
       end
     end
+  end
+
+  class MultiplePartialMatch
+    def self.match(query, suggestion)
+      employees = Employee.partial_match(query)
+      if employees.count > 1
+        suggestions = suggested_employees(employees)
+        suggestion.store_all(suggestions)
+        [CreateMessage.with_suggestions(suggestions), nil]
+      end
+    end
+
+    def self.suggested_employees(employees)
+      employees.each_with_index.inject({}) do |suggestions, (employee, index)|
+        suggestions.merge(Hash[index.succ, employee.name])
+      end
+    end
+
+    private_class_method :suggested_employees
   end
 
   class NotFound
@@ -25,22 +46,18 @@ class EmployeeFinder
 
   MATCHERS = [
     PerfectMatch,
-    PartialMatch,
+    SinglePartialMatch,
+    MultiplePartialMatch,
     NotFound
   ]
 
-  def initialize(query, suggestion)
-    @query      = query
+  def initialize(suggestion)
     @suggestion = suggestion
   end
 
-  def apply_query
+  def apply(query)
     MATCHERS.each do |matcher|
-      result = matcher.match(query, suggestion) and return result
+      result = matcher.match(query, @suggestion) and return result
     end
   end
-
-  private
-
-  attr_reader :query, :suggestion
 end
