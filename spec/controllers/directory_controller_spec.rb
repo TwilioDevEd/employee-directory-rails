@@ -8,7 +8,7 @@ describe DirectoryController do
 
     context 'when the criteria fits a perfect match' do
       before do
-        post :search, { Body: "Robert Williams", From: "+12025550143" }
+        post :search, { Body: "Robert Williams" }
       end
 
       it 'responds with ok' do
@@ -35,7 +35,7 @@ describe DirectoryController do
     context 'when the criteria does not fit a perfect match' do
       context 'and when the match contains only one employee' do
         before do
-          post :search, { Body: "Rob Williams", From: "+12025550143" }
+          post :search, { Body: "Rob Williams" }
         end
 
         it 'responds with ok' do
@@ -56,7 +56,7 @@ describe DirectoryController do
       context 'and when the match contains multiple employees' do
         before do
           create(:employee, first_name: 'Robin', last_name: 'Williams')
-          post :search, { Body: "Rob Williams", From: "+12025550143" }
+          post :search, { Body: "Rob Williams" }
         end
 
         it 'responds with ok' do
@@ -84,7 +84,7 @@ describe DirectoryController do
     context 'when the criteria is "yes"' do
       before do
         request.cookies[:suggestion] = 'Robert Williams'
-        post :search, { Body: "Yes", From: "+12025550143" }
+        post :search, { Body: "Yes" }
       end
 
       it 'responds with ok' do
