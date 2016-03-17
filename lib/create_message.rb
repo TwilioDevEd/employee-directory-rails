@@ -23,7 +23,7 @@ module CreateMessage
       "#{index} for #{employee}"
     end
 
-    (['We found multiple people, reply with:'] |suggestions | ['Or start over'])
+    (['We found multiple people, reply with:'] | suggestions | ['Or start over'])
       .join("\n")
   end
 

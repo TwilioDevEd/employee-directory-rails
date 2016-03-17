@@ -14,7 +14,7 @@ class Suggestion < Struct.new(:cookies)
   end
 
   def fetch_all
-    YAML::load(cookies.fetch(:suggestions, '')) || {}
+    YAML.load(cookies.fetch(:suggestions, '')) || {}
   end
 
   def destroy

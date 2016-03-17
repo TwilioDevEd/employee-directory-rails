@@ -11,7 +11,7 @@ describe QueryBuilder do
 
     context 'when a single suggestion is available' do
       let(:suggestion) do
-        Suggestion.new({suggestion: 'Frankie Muniz'})
+        Suggestion.new(suggestion: 'Frankie Muniz')
       end
 
       context 'and when body contains yes' do
@@ -31,7 +31,7 @@ describe QueryBuilder do
 
     context 'when a multiple suggestion is available' do
       let(:suggestion) do
-        Suggestion.new({suggestions: {'1' => 'Frankie Muniz'}.to_yaml})
+        Suggestion.new(suggestions: { '1' => 'Frankie Muniz' }.to_yaml)
       end
 
       context 'and when body contains a number' do
