@@ -17,6 +17,15 @@ Employee.create([
     image_url: 'http://bit.ly/twilio-rob-williams'
   },
   {
+    first_name: 'Robert',
+    last_name: 'Williams',
+    job_title: 'Team Lead',
+    city: 'San Diego',
+    phone_number: '+1-202-203-0143',
+    email: 'rtwilliams@example.com',
+    image_url: 'http://bit.ly/twilio-rot-williams'
+  },
+  {
     first_name: 'Frankie',
     last_name: 'Muniz',
     job_title: 'QA Manager',

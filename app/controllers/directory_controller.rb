@@ -3,17 +3,9 @@ class DirectoryController < ApplicationController
 
   def search
     suggestion = Suggestion.new(cookies)
-    query      = build_query(suggestion, params["Body"])
-
+    query      = QueryBuilder.new(suggestion, params["Body"]).build
     message, image_url = EmployeeFinder.new(suggestion).apply(query)
+
     render xml: TwimlResponseCreator.create(message, image_url)
-  end
-
-  private
-
-  def build_query(suggestion, body)
-    return suggestion.fetch                if suggestion.single?
-    return suggestion.fetch_all[body.to_i] if suggestion.multiple?
-    body
   end
 end

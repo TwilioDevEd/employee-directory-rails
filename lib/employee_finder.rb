@@ -31,7 +31,7 @@ class EmployeeFinder
 
     def self.suggested_employees(employees)
       employees.each_with_index.inject({}) do |suggestions, (employee, index)|
-        suggestions.merge(Hash[index.succ, employee.name])
+        suggestions.merge(Hash[index.succ.to_s, employee.name])
       end
     end
 

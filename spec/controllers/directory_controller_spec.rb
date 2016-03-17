@@ -76,7 +76,7 @@ describe DirectoryController do
 
         it 'stores a twilio cookie with the found suggestions' do
           expect(cookies[:suggestions]).to eq(
-            { 1 => "Robin Williams", 2 => "Robert Williams"}.to_yaml)
+            { '1' => "Robin Williams", '2' => "Robert Williams"}.to_yaml)
         end
       end
     end
@@ -101,7 +101,7 @@ describe DirectoryController do
     context 'when the criteria is a number' do
       before do
         create(:employee, first_name: 'Robin', last_name: 'Williams')
-        cookies[:suggestions] = { 1 => "Robin Williams", 2 => "Robert Williams"}.to_yaml
+        cookies[:suggestions] = { '1' => "Robin Williams", '2' => "Robert Williams"}.to_yaml
         post :search, { Body: "1" }
       end
 
