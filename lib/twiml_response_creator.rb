@@ -1,7 +1,7 @@
 module TwimlResponseCreator
   module_function
 
-  def create(message, media_url)
+  def create(message, media_url = nil)
     Twilio::TwiML::Response.new do |response|
       response.Message do |msg|
         msg.Body  message
