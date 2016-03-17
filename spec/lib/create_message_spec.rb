@@ -25,9 +25,27 @@ describe CreateMessage do
   describe '.with_suggestion' do
     it 'creates a message with an employee suggestion' do
       expect(described_class.with_suggestion(employee)).to eq([
-        "We did not find an exact match. Did you mean #{employee.name}? ",
+        "We did not find an exact match. Did you mean Robert Williams? ",
         "Reply \"Yes\" to confirm the name or start over."
       ].join)
+    end
+  end
+
+  describe '.with_suggestions' do
+    it 'creates a message with multiple suggestions' do
+      employees = {
+        '1' => 'Andy Williams',
+        '2' => 'Bob Williams',
+        '3' => 'William Colt'
+      }
+
+      expect(described_class.with_suggestions(employees)).to eq([
+        'We found multiple people, reply with:',
+        '1 for Andy Williams',
+        '2 for Bob Williams',
+        '3 for William Colt',
+        'Or start over'
+      ].join("\n"))
     end
   end
 

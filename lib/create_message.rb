@@ -18,6 +18,15 @@ module CreateMessage
     ].join
   end
 
+  def with_suggestions(employees)
+    suggestions = employees.map do |index, employee|
+      "#{index} for #{employee}"
+    end
+
+    (['We found multiple people, reply with:'] |suggestions | ['Or start over'])
+      .join("\n")
+  end
+
   def for_no_match
     "We did not find the employee you're looking for"
   end

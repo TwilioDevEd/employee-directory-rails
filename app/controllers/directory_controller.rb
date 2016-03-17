@@ -3,10 +3,9 @@ class DirectoryController < ApplicationController
 
   def search
     suggestion = Suggestion.new(cookies)
-    body       = params["Body"]
-    query      = body.downcase == 'yes' ? suggestion.fetch : body
+    query      = QueryBuilder.new(suggestion, params["Body"]).build
+    message, image_url = EmployeeFinder.new(suggestion).apply(query)
 
-    message, image_url = EmployeeFinder.new(query, suggestion).apply_query
     render xml: TwimlResponseCreator.create(message, image_url)
   end
 end
