@@ -10,7 +10,7 @@
   height:100%;
   width:100%;
 }</style><link rel="shortcut icon" href="//twilio.com/bundles/marketing/img/favicons/favicon.ico"><link rel="apple-touch-icon" href="//twilio.com/bundles/marketing/img/favicons/favicon_57.png"><link rel="apple-touch-icon" sizes="72x72" href="//twilio.com/bundles/marketing/img/favicons/favicon_72.png"><link rel="apple-touch-icon" sizes="114x114" href="//twilio.com/bundles/marketing/img/favicons/favicon_114.png"><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"><link rel="stylesheet" href="viewsaurus.css"></head><body><div class="wrapper"><div id="viewsaurus" data-title="Employee Directory Rails"><div class="saurus-panes"><div class="saurus-prose"><div class="saurus-prose-header"><div class="title-outer"><span class="step-title">Employee Directory Rails</span></div></div><div class="saurus-nav-buttons"><div class="saurus-nav-button nav-overview"><div class="saurus-nav-button-inner"><i class="fa fa-fw fa-list"></i></div><div class="nav-divider"></div></div><div class="saurus-nav-button nav-previous"><div class="saurus-nav-button-inner"><a href=""> <i class="fa fa-fw fa-play fa-rotate-180"></i></a></div><div class="nav-divider"></div></div><div class="saurus-nav-button nav-next clickable"><div class="saurus-nav-button-inner"><a href="#1"> <i class="fa fa-fw fa-play"></i></a></div></div><div class="saurus-next-title"><span class="next-title-inner"></span></div></div><div class="saurus-progress-bar"></div><div class="saurus-start"><p>Request employee information from your directory with SMS and Twilio!</p><a href="#0">Start Tutorial</a></div><div class="saurus-content"><div data-title="Warm Transfer Rails" class="chapter"><div data-title="What Are We Building?" data-file="config/routes.rb" class="step"><h2 id="employee-directory">Employee Directory</h2>
-<p><img src="//twilio-docs-content.s3.amazonaws.com/employee-directory.png" alt="Employee Directory"></p>
+<p><img src="//howtodocs.s3.amazonaws.com/employee-directory.png" alt="Employee Directory"></p>
 <p>Learn how to implement an employee directory that you can query using SMS.
 Request information from anyone at your company just by sending a text message
 to a <a href="//www.twilio.com/help/faq/phone-numbers">Twilio Number</a></p>
@@ -22,7 +22,9 @@ to a <a href="//www.twilio.com/help/faq/phone-numbers">Twilio Number</a></p>
 </li>
 <li><p>If an exact match is found, the employee&#39;s information is returned.</p>
 </li>
-<li><p>If no exact match is found, the user receives a suggested match and the option to obtain the suggested employee&#39;s information.</p>
+<li><p>If no exact match is found, the user is given a list of employee suggestions to pick from.</p>
+</li>
+<li><p>The user reply&#39;s with a number to get the complete information from the selected employee.</p>
 </li>
 </ol>
 <p>Let&#39;s get started!</p>
@@ -39,9 +41,34 @@ will send SMS asking for employee information.
 <p>You need to expose your localhost using a tool like <a href="//ngrok.com/">ngrok</a>.
 Now your SMS URL should look something like this:</p>
 <pre><code>https://&lt;subdomain&gt;.ngrok.io/directory/search
-</code></pre></div><div data-title="Handling Twilio's SMS Request" data-file="app/controllers/directory_controller.rb" data-highlight="1" class="step"><h2 id="handling-twilio-s-sms-request">Handling Twilio&#39;s SMS Request</h2>
+</code></pre><p>Make sure you select <code>POST</code> as the request type when setting your URL. This
+is the method the application uses by default.</p>
+</div><div data-title="Handling Twilio's SMS Request" data-file="app/controllers/directory_controller.rb" data-highlight="4-10" class="step"><h2 id="handling-twilio-s-sms-request">Handling Twilio&#39;s SMS Request</h2>
+<p>When a SMS is received in your <a href="//www.twilio.com/help/faq/phone-numbers">Twilio Number</a>,
+Twilio will make a POST
+request to <code>/directory/search</code> asking for <a href="//www.twilio.com/docs/api/twiml">TwiML</a>
+instructions.</p>
+<p>Once the application identifies one of the 4 possible scenarios
+(exact match, single partial match, multiple partial match or no match),
+it will send a <a href="//www.twilio.com/docs/api/twiml">TwiML</a> response to Twilio. This response will instruct Twilio
+to send a SMS <a href="//www.twilio.com/docs/api/twiml/sms/message">Message</a>
+back to the user who sent the first SMS.</p>
+<p>Let&#39;s take a closer look to each one of the scenarios.</p>
+</div><div data-title="Finding an Exact Match" data-file="lib/matchers/perfect_match.rb" data-highlight="3-9" class="step"><h2 id="finding-an-exact-match">Finding an Exact Match</h2>
+<p>This is the simplest scenario. We query our database expecting to find an
+employee whose first and last name are exactly the ones we specified in the SMS
+that was sent to our Twilio number. If a match is found, a message containing
+this employee&#39;s information is built and sent to Twilio as TwiML instructions.</p>
+<p>If no match is found we&#39;ll try to do a single partial match, that is our
+next possible scenario.</p>
+<hr>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="//github.com/TwilioDevEd/employee-directory-rails/blob/c02c9e234e2bbc337c09404e2234138f3f59f02b/lib/employee_finder.rb">How we iterate over possible matching scenarios</a></li>
+</ul>
 </div></div>
-<div class="saurus-files" style="display:none;"><textarea class="saurus-file" data-file="config/routes.rb" data-mode="ruby">UmFpbHMuYXBwbGljYXRpb24ucm91dGVzLmRyYXcgZG8KICAgcG9zdCAnL2RpcmVjdG9yeS9zZWFyY2gnLCB0bzogJ2RpcmVjdG9yeSNzZWFyY2gnCmVuZAo=</textarea>
-<textarea class="saurus-file" data-file="app/controllers/directory_controller.rb" data-mode="ruby">Y2xhc3MgRGlyZWN0b3J5Q29udHJvbGxlciA8IEFwcGxpY2F0aW9uQ29udHJvbGxlcgogIHNraXBfYmVmb3JlX2FjdGlvbiA6dmVyaWZ5X2F1dGhlbnRpY2l0eV90b2tlbgoKICBkZWYgc2VhcmNoCiAgICBzdWdnZXN0aW9uID0gU3VnZ2VzdGlvbi5uZXcoY29va2llcykKICAgIGJvZHkgICAgICAgPSBwYXJhbXNbIkJvZHkiXQogICAgcXVlcnkgICAgICA9IGJvZHkuZG93bmNhc2UgPT0gJ3llcycgPyBzdWdnZXN0aW9uLmZldGNoIDogYm9keQoKICAgIG1lc3NhZ2UgICA9IENyZWF0ZU1lc3NhZ2UuZm9yX25vX21hdGNoCiAgICBpbWFnZV91cmwgPSBuaWwKICAgIGlmIGVtcGxveWVlID0gRW1wbG95ZWUucGVyZmVjdF9tYXRjaChxdWVyeSkuZmlyc3QKICAgICAgc3VnZ2VzdGlvbi5kZXN0cm95CiAgICAgIG1lc3NhZ2UgPSBDcmVhdGVNZXNzYWdlLndpdGhfZW1wbG95ZWVfaW5mbyhlbXBsb3llZSkKICAgICAgaW1hZ2VfdXJsID0gZW1wbG95ZWUuaW1hZ2VfdXJsCiAgICBlbHNpZiBlbXBsb3llZSA9IEVtcGxveWVlLnBhcnRpYWxfbWF0Y2gocXVlcnkpLmZpcnN0CiAgICAgIHN1Z2dlc3Rpb24uc3RvcmUoZW1wbG95ZWUubmFtZSkKICAgICAgbWVzc2FnZSA9IENyZWF0ZU1lc3NhZ2Uud2l0aF9zdWdnZXN0aW9uKGVtcGxveWVlKQogICAgZW5kCgogICAgcmVuZGVyIHhtbDogdHdpbWxfcmVzcG9uc2UobWVzc2FnZSwgaW1hZ2VfdXJsKQogIGVuZAoKICBwcml2YXRlCgogIGRlZiB0d2ltbF9yZXNwb25zZShtZXNzYWdlLCBtZWRpYV91cmwpCiAgICBUd2lsaW86OlR3aU1MOjpSZXNwb25zZS5uZXcgZG8gfHJlc3BvbnNlfAogICAgICByZXNwb25zZS5NZXNzYWdlIGRvIHxtc2d8CiAgICAgICAgbXNnLkJvZHkgIG1lc3NhZ2UKICAgICAgICBtc2cuTWVkaWEgbWVkaWFfdXJsIGlmIG1lZGlhX3VybAogICAgICBlbmQKICAgIGVuZC50b194bWwKICBlbmQKZW5kCg==</textarea>
+<div class="saurus-files" style="display:none;"><textarea class="saurus-file" data-file="config/routes.rb" data-mode="ruby">UmFpbHMuYXBwbGljYXRpb24ucm91dGVzLmRyYXcgZG8KICBwb3N0ICcvZGlyZWN0b3J5L3NlYXJjaCcsIHRvOiAnZGlyZWN0b3J5I3NlYXJjaCcKZW5kCg==</textarea>
+<textarea class="saurus-file" data-file="app/controllers/directory_controller.rb" data-mode="ruby">Y2xhc3MgRGlyZWN0b3J5Q29udHJvbGxlciA8IEFwcGxpY2F0aW9uQ29udHJvbGxlcgogIHNraXBfYmVmb3JlX2FjdGlvbiA6dmVyaWZ5X2F1dGhlbnRpY2l0eV90b2tlbgoKICBkZWYgc2VhcmNoCiAgICBzdWdnZXN0aW9uID0gU3VnZ2VzdGlvbi5uZXcoY29va2llcykKICAgIHF1ZXJ5ICAgICAgPSBRdWVyeUJ1aWxkZXIubmV3KHN1Z2dlc3Rpb24sIHBhcmFtc1snQm9keSddKS5idWlsZAogICAgbWVzc2FnZSwgaW1hZ2VfdXJsID0gRW1wbG95ZWVGaW5kZXIubmV3KHN1Z2dlc3Rpb24pLmFwcGx5KHF1ZXJ5KQoKICAgIHJlbmRlciB4bWw6IFR3aW1sUmVzcG9uc2VDcmVhdG9yLmNyZWF0ZShtZXNzYWdlLCBpbWFnZV91cmwpCiAgZW5kCmVuZAo=</textarea>
+<textarea class="saurus-file" data-file="lib/matchers/perfect_match.rb" data-mode="ruby">bW9kdWxlIE1hdGNoZXJzCiAgY2xhc3MgUGVyZmVjdE1hdGNoCiAgICBkZWYgc2VsZi5tYXRjaChxdWVyeSwgc3VnZ2VzdGlvbikKICAgICAgZW1wbG95ZWUgPSBFbXBsb3llZS5wZXJmZWN0X21hdGNoKHF1ZXJ5KS5maXJzdAogICAgICBpZiBlbXBsb3llZQogICAgICAgIHN1Z2dlc3Rpb24uZGVzdHJveQogICAgICAgIFtDcmVhdGVNZXNzYWdlLndpdGhfZW1wbG95ZWVfaW5mbyhlbXBsb3llZSksIGVtcGxveWVlLmltYWdlX3VybF0KICAgICAgZW5kCiAgICBlbmQKICBlbmQKZW5kCg==</textarea>
 </div>
 </div><div class="saurus-overview"><ul></ul></div></div><div class="saurus-code"><div class="file-path"><span class="crumb-container"></span><i class="fa fa-fw fa-folder"></i></div><div class="saurus-editor"></div></div><div class="saurus-explorer"><div class="saurus-file-list"></div><a href="https://github.com/TwilioDevEd/employee-directory-rails" target="_blank" class="explorer-get-code"> <i class="fa fa-lg fa-github-square"> </i>View Code on GitHub</a></div></div></div></div><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script><script src="ace/ace.js"></script><script src="ace/theme-monokai.js"></script><script src="viewsaurus.js"></script></body></html>

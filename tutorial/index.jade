@@ -4,7 +4,8 @@
     data-file='config/routes.rb')
     :markdown
       ## Employee Directory
-      ![Employee Directory](//twilio-docs-content.s3.amazonaws.com/employee-directory.png)
+
+      ![Employee Directory](//howtodocs.s3.amazonaws.com/employee-directory.png)
 
       Learn how to implement an employee directory that you can query using SMS.
       Request information from anyone at your company just by sending a text message
@@ -17,8 +18,10 @@
       1. The user sends a SMS with an employee's name, last name or both to the Twilio number.
 
       1. If an exact match is found, the employee's information is returned.
+      
+      1. If no exact match is found, the user is given a list of employee suggestions to pick from.
 
-      1. If no exact match is found, the user receives a suggested match and the option to obtain the suggested employee's information.
+      1. The user reply's with a number to get the complete information from the selected employee.
 
       Let's get started!
 
@@ -46,9 +49,47 @@
       https://<subdomain>.ngrok.io/directory/search
       ```
       
+      Make sure you select `POST` as the request type when setting your URL. This
+      is the method the application uses by default.
+      
   .step(
     data-title="Handling Twilio's SMS Request",
     data-file='app/controllers/directory_controller.rb',
-    data-highlight='1')
+    data-highlight='4-10')
     :markdown
       ## Handling Twilio's SMS Request
+      
+      When a SMS is received in your [Twilio Number](//www.twilio.com/help/faq/phone-numbers),
+      Twilio will make a POST
+      request to `/directory/search` asking for [TwiML]
+      instructions.
+
+      Once the application identifies one of the 4 possible scenarios
+      (exact match, single partial match, multiple partial match or no match),
+      it will send a [TwiML] response to Twilio. This response will instruct Twilio
+      to send a SMS [Message](//www.twilio.com/docs/api/twiml/sms/message)
+      back to the user who sent the first SMS.
+      
+      Let's take a closer look to each one of the scenarios.
+      
+      [TwiML]: //www.twilio.com/docs/api/twiml
+      
+  .step(
+    data-title="Finding an Exact Match",
+    data-file='lib/matchers/perfect_match.rb',
+    data-highlight='3-9')
+    :markdown
+      ## Finding an Exact Match
+      
+      This is the simplest scenario. We query our database expecting to find an
+      employee whose first and last name are exactly the ones we specified in the SMS
+      that was sent to our Twilio number. If a match is found, a message containing
+      this employee's information is built and sent to Twilio as TwiML instructions.
+      
+      If no match is found we'll try to do a single partial match, that is our
+      next possible scenario.
+      
+      ---
+
+      **See Also:**
+      * [How we iterate over possible matching scenarios](//github.com/TwilioDevEd/employee-directory-rails/blob/c02c9e234e2bbc337c09404e2234138f3f59f02b/lib/employee_finder.rb)
