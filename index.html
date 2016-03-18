@@ -54,7 +54,7 @@ it will send a <a href="//www.twilio.com/docs/api/twiml">TwiML</a> response to T
 to send a SMS <a href="//www.twilio.com/docs/api/twiml/sms/message">Message</a>
 back to the user who sent the first SMS.</p>
 <p>Let&#39;s take a closer look to each one of the scenarios.</p>
-</div><div data-title="Finding an Exact Match" data-file="lib/matchers/perfect_match.rb" data-highlight="2-10" class="step"><h2 id="finding-an-exact-match">Finding an Exact Match</h2>
+</div><div data-title="Exact Match" data-file="lib/matchers/perfect_match.rb" data-highlight="2-10" class="step"><h2 id="exact-match">Exact Match</h2>
 <p>This is the simplest scenario. We query our database expecting to find an
 employee whose first and last name are exactly the ones we specified in the SMS
 that was sent to our Twilio number. If a match is found, a message containing
@@ -66,7 +66,7 @@ next possible scenario.</p>
 <ul>
 <li><a href="//github.com/TwilioDevEd/employee-directory-rails/blob/c02c9e234e2bbc337c09404e2234138f3f59f02b/lib/employee_finder.rb">How we iterate over possible matching scenarios</a></li>
 </ul>
-</div><div data-title="Finding a Single Partial Match" data-file="lib/matchers/single_partial_match.rb" data-highlight="2-11" class="step"><h2 id="finding-a-single-partial-match">Finding a Single Partial Match</h2>
+</div><div data-title="Single Partial Match" data-file="lib/matchers/single_partial_match.rb" data-highlight="2-11" class="step"><h2 id="single-partial-match">Single Partial Match</h2>
 <p>If no employee exact match is found on the database we&#39;ll try to find a close
 one using the <a href="//github.com/mezis/fuzzily">Fuzzily Gem</a>. In this scenario
 we&#39;ll verify that only 1 partial match is obtained. When a single partial match
@@ -74,15 +74,72 @@ is found, the user will receive a suggestion of the found partial match. The
 user will also be given the opportunity to reply with the word <code>yes</code> to this
 SMS. If that were the case, the user will receive the full information for the
 user that was originally suggested.</p>
+<p>We&#39;ll show you the suggestions are stored for the SMS conversation using
+<a href="https://www.twilio.com/blog/2014/07/the-definitive-guide-to-sms-conversation-tracking.html">Twilio Cookies</a>
+a few steps later.</p>
 <hr>
 <p><strong>See Also:</strong></p>
 <ul>
 <li><a href="//github.com/mezis/fuzzily#usage">Fuzzily Gem Usage</a></li>
 </ul>
+</div><div data-title="Multiple Partial Match" data-file="lib/matchers/multiple_partial_match.rb" data-highlight="2-10" class="step"><h2 id="multiple-partial-match">Multiple Partial Match</h2>
+<p>At this point we have already tried to use the user&#39;s query as an exact employee match
+and a single partial match. Now we&#39;ll try to get a partial match that returns
+more than one result. Just like in the previous scenario, we&#39;ll use
+<a href="https://www.twilio.com/blog/2014/07/the-definitive-guide-to-sms-conversation-tracking.html">Twilio Cookies</a>
+to store suggestions. Then only difference here is that we need to store a Hash
+of suggestions with an index so the user can reply with a number that references
+one of the suggestions in order to get all of the employee&#39;s information.</p>
+<p>The last scenario is so simple that a step won&#39;t be created for it. If none
+of the previous scenarios occurs, it means that there is no employee in the
+database that matches the user&#39;s query. If this happens, a reply will be sent
+to the user explaining that their query doesn&#39;t match any of the employees.</p>
+<hr>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="//api.rubyonrails.org/classes/ActionDispatch/Cookies.html">Ruby on Rails cookies</a></li>
+</ul>
+</div><div data-title="Storing Suggestions With Cookies" data-file="lib/query_builder.rb" class="step"><h2 id="storing-suggestions-with-cookies">Storing Suggestions With Cookies</h2>
+<p>We&#39;ll finally explain how suggestions are persisted in the application across
+messages. Read more on Twilio Cookies <a href="https://www.twilio.com/blog/2014/07/the-definitive-guide-to-sms-conversation-tracking.html">here</a>.</p>
+<p>When a user gets a partial match by searching the employee directory, we
+reply with one or more suggestions. But this is not all there is to it! We need
+to save the list of suggestions given to the user. This way we can send them all the
+information when they pick one of the options.</p>
+<p>For single partial matches we store the name of the suggested employee in a cookie.
+When the user replies <code>yes</code> to this message, we obtain the employee name from the cookie
+and then query the database with that user name. All the employee&#39;s information is immediately sent
+to the user.</p>
+<p>Something similar is done for multiple partial matches. The only difference is that
+in this case a hash is stored with all the employees that partially match the request. The
+list of employees is stored with numbers starting from one in order to identify the selection. 
+After the suggestions are sent to the user, he/she replies with nothing
+more than a number that identifies the employee. Using the same logic as before,
+the employee&#39;s information is fetched from the database using the selected name
+and then simply sent to the user.</p>
+<hr>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="https://www.twilio.com/blog/2014/07/the-definitive-guide-to-sms-conversation-tracking.html">Twilio Cookies</a></li>
+</ul>
+</div><div class="step"><h2 id="where-to-next-">Where to next?</h2>
+<p>That&#39;s it! We have just implemented employee directory using Ruby on Rails.
+Now you can get your employee&#39;s information by texting a Twilio number.</p>
+<p>If you&#39;re a Ruby developer working with Twilio, you might also enjoy these
+tutorials:</p>
+<p><a href="//www.twilio.com/docs/tutorials/walkthrough/browser-calls/ruby/rails"><strong>Browser-Calls</strong></a></p>
+<p>Learn how to use Twilio Client to make browser-to-phone and browser-to-browser calls with ease.</p>
+<p><a href="//www.twilio.com/docs/tutorials/walkthrough/eta-notifications/ruby/rails"><strong>ETA-Notifications</strong></a></p>
+<p>Learn how to implement ETA Notifications using Ruby on Rails and Twilio.</p>
+<p>Thanks for checking out this tutorial! If you have any feedback
+to share with us, we&#39;d love to hear it.
+<a href="//www.twilio.com/help/contact">Contact support</a> to let us know what you think.</p>
 </div></div>
 <div class="saurus-files" style="display:none;"><textarea class="saurus-file" data-file="config/routes.rb" data-mode="ruby">UmFpbHMuYXBwbGljYXRpb24ucm91dGVzLmRyYXcgZG8KICBwb3N0ICcvZGlyZWN0b3J5L3NlYXJjaCcsIHRvOiAnZGlyZWN0b3J5I3NlYXJjaCcKZW5kCg==</textarea>
 <textarea class="saurus-file" data-file="app/controllers/directory_controller.rb" data-mode="ruby">Y2xhc3MgRGlyZWN0b3J5Q29udHJvbGxlciA8IEFwcGxpY2F0aW9uQ29udHJvbGxlcgogIHNraXBfYmVmb3JlX2FjdGlvbiA6dmVyaWZ5X2F1dGhlbnRpY2l0eV90b2tlbgoKICBkZWYgc2VhcmNoCiAgICBzdWdnZXN0aW9uID0gU3VnZ2VzdGlvbi5uZXcoY29va2llcykKICAgIHF1ZXJ5ICAgICAgPSBRdWVyeUJ1aWxkZXIubmV3KHN1Z2dlc3Rpb24sIHBhcmFtc1snQm9keSddKS5idWlsZAogICAgbWVzc2FnZSwgaW1hZ2VfdXJsID0gRW1wbG95ZWVGaW5kZXIubmV3KHN1Z2dlc3Rpb24pLmFwcGx5KHF1ZXJ5KQoKICAgIHJlbmRlciB4bWw6IFR3aW1sUmVzcG9uc2VDcmVhdG9yLmNyZWF0ZShtZXNzYWdlLCBpbWFnZV91cmwpCiAgZW5kCmVuZAo=</textarea>
 <textarea class="saurus-file" data-file="lib/matchers/perfect_match.rb" data-mode="ruby">bW9kdWxlIE1hdGNoZXJzCiAgY2xhc3MgUGVyZmVjdE1hdGNoCiAgICBkZWYgc2VsZi5tYXRjaChxdWVyeSwgc3VnZ2VzdGlvbikKICAgICAgZW1wbG95ZWUgPSBFbXBsb3llZS5wZXJmZWN0X21hdGNoKHF1ZXJ5KS5maXJzdAogICAgICBpZiBlbXBsb3llZQogICAgICAgIHN1Z2dlc3Rpb24uZGVzdHJveQogICAgICAgIFtDcmVhdGVNZXNzYWdlLndpdGhfZW1wbG95ZWVfaW5mbyhlbXBsb3llZSksIGVtcGxveWVlLmltYWdlX3VybF0KICAgICAgZW5kCiAgICBlbmQKICBlbmQKZW5kCg==</textarea>
 <textarea class="saurus-file" data-file="lib/matchers/single_partial_match.rb" data-mode="ruby">bW9kdWxlIE1hdGNoZXJzCiAgY2xhc3MgU2luZ2xlUGFydGlhbE1hdGNoCiAgICBkZWYgc2VsZi5tYXRjaChxdWVyeSwgc3VnZ2VzdGlvbikKICAgICAgZW1wbG95ZWVzID0gRW1wbG95ZWUucGFydGlhbF9tYXRjaChxdWVyeSkKICAgICAgaWYgZW1wbG95ZWVzLmNvdW50ID09IDEKICAgICAgICBlbXBsb3llZSA9IGVtcGxveWVlcy5maXJzdAogICAgICAgIHN1Z2dlc3Rpb24uc3RvcmUoZW1wbG95ZWUubmFtZSkKICAgICAgICBbQ3JlYXRlTWVzc2FnZS53aXRoX3N1Z2dlc3Rpb24oZW1wbG95ZWUpLCBuaWxdCiAgICAgIGVuZAogICAgZW5kCiAgZW5kCmVuZAo=</textarea>
+<textarea class="saurus-file" data-file="lib/matchers/multiple_partial_match.rb" data-mode="ruby">bW9kdWxlIE1hdGNoZXJzCiAgY2xhc3MgTXVsdGlwbGVQYXJ0aWFsTWF0Y2gKICAgIGRlZiBzZWxmLm1hdGNoKHF1ZXJ5LCBzdWdnZXN0aW9uKQogICAgICBlbXBsb3llZXMgPSBFbXBsb3llZS5wYXJ0aWFsX21hdGNoKHF1ZXJ5KQogICAgICBpZiBlbXBsb3llZXMuY291bnQgPiAxCiAgICAgICAgc3VnZ2VzdGlvbnMgPSBzdWdnZXN0ZWRfZW1wbG95ZWVzKGVtcGxveWVlcykKICAgICAgICBzdWdnZXN0aW9uLnN0b3JlX2FsbChzdWdnZXN0aW9ucykKICAgICAgICBbQ3JlYXRlTWVzc2FnZS53aXRoX3N1Z2dlc3Rpb25zKHN1Z2dlc3Rpb25zKSwgbmlsXQogICAgICBlbmQKICAgIGVuZAoKICAgIGRlZiBzZWxmLnN1Z2dlc3RlZF9lbXBsb3llZXMoZW1wbG95ZWVzKQogICAgICBlbXBsb3llZXMuZWFjaF93aXRoX2luZGV4LmluamVjdCh7fSkgZG8gfHN1Z2dlc3Rpb25zLCAoZW1wbG95ZWUsIGluZGV4KXwKICAgICAgICBzdWdnZXN0aW9ucy5tZXJnZShIYXNoW2luZGV4LnN1Y2MudG9fcywgZW1wbG95ZWUubmFtZV0pCiAgICAgIGVuZAogICAgZW5kCgogICAgcHJpdmF0ZV9jbGFzc19tZXRob2QgOnN1Z2dlc3RlZF9lbXBsb3llZXMKICBlbmQKZW5kCg==</textarea>
+<textarea class="saurus-file" data-file="lib/query_builder.rb" data-mode="ruby">Y2xhc3MgUXVlcnlCdWlsZGVyCiAgZGVmIGluaXRpYWxpemUoc3VnZ2VzdGlvbiwgYm9keSkKICAgIEBzdWdnZXN0aW9uID0gc3VnZ2VzdGlvbgogICAgQGJvZHkgICAgICAgPSBib2R5LmRvd25jYXNlCiAgZW5kCgogIGRlZiBidWlsZAogICAgcmV0dXJuIHN1Z2dlc3Rpb24uc2luZ2xlICAgICAgICAgICAgICAgICAgIGlmIHZhbGlkX2Zvcl9zaW5nbGVfbWF0Y2g/CiAgICByZXR1cm4gc3VnZ2VzdGlvbi5tdWx0aXBsZS5mZXRjaChib2R5LCAnJykgaWYgdmFsaWRfZm9yX211bHRpcGxlX21hdGNoPwogICAgYm9keQogIGVuZAoKICBwcml2YXRlCgogIGF0dHJfcmVhZGVyIDpzdWdnZXN0aW9uLCA6Ym9keQoKICBkZWYgdmFsaWRfZm9yX3NpbmdsZV9tYXRjaD8KICAgIHN1Z2dlc3Rpb24uc2luZ2xlPyAmJiBib2R5ID09ICd5ZXMnCiAgZW5kCgogIGRlZiB2YWxpZF9mb3JfbXVsdGlwbGVfbWF0Y2g/CiAgICBzdWdnZXN0aW9uLm11bHRpcGxlPyAmJiBib2R5ID1+IC9eXGQkLwogIGVuZAplbmQK</textarea>
 </div>
 </div><div class="saurus-overview"><ul></ul></div></div><div class="saurus-code"><div class="file-path"><span class="crumb-container"></span><i class="fa fa-fw fa-folder"></i></div><div class="saurus-editor"></div></div><div class="saurus-explorer"><div class="saurus-file-list"></div><a href="https://github.com/TwilioDevEd/employee-directory-rails" target="_blank" class="explorer-get-code"> <i class="fa fa-lg fa-github-square"> </i>View Code on GitHub</a></div></div></div></div><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script><script src="ace/ace.js"></script><script src="ace/theme-monokai.js"></script><script src="viewsaurus.js"></script></body></html>
