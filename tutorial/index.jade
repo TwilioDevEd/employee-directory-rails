@@ -77,7 +77,7 @@
   .step(
     data-title="Finding an Exact Match",
     data-file='lib/matchers/perfect_match.rb',
-    data-highlight='3-9')
+    data-highlight='2-10')
     :markdown
       ## Finding an Exact Match
       
@@ -93,3 +93,23 @@
 
       **See Also:**
       * [How we iterate over possible matching scenarios](//github.com/TwilioDevEd/employee-directory-rails/blob/c02c9e234e2bbc337c09404e2234138f3f59f02b/lib/employee_finder.rb)
+
+  .step(
+    data-title="Finding a Single Partial Match",
+    data-file='lib/matchers/single_partial_match.rb',
+    data-highlight='2-11')
+    :markdown
+      ## Finding a Single Partial Match
+      
+      If no employee exact match is found on the database we'll try to find a close
+      one using the [Fuzzily Gem](//github.com/mezis/fuzzily). In this scenario
+      we'll verify that only 1 partial match is obtained. When a single partial match
+      is found, the user will receive a suggestion of the found partial match. The
+      user will also be given the opportunity to reply with the word `yes` to this
+      SMS. If that were the case, the user will receive the full information for the
+      user that was originally suggested.
+      
+      ---
+
+      **See Also:**
+      * [Fuzzily Gem Usage](//github.com/mezis/fuzzily#usage)
