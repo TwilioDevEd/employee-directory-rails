@@ -2,8 +2,10 @@ require 'rails_helper'
 require_relative '../../../lib/matchers/multiple_partial_match'
 
 describe Matchers::MultiplePartialMatch do
-  before { create(:employee, first_name: 'Robert', last_name: 'Williams') }
-  before { create(:employee, first_name: 'Robin',  last_name: 'Williams') }
+  before do
+    create(:employee, first_name: 'Robert', last_name: 'Williams')
+    create(:employee, first_name: 'Robin',  last_name: 'Williams')
+  end
 
   subject { described_class.match(query, Suggestion.new({})) }
 
