@@ -5,8 +5,8 @@ class QueryBuilder
   end
 
   def build
-    return suggestion.fetch           if valid_for_single_match?
-    return suggestion.fetch_all[body] if valid_for_multiple_match?
+    return suggestion.single                   if valid_for_single_match?
+    return suggestion.multiple.fetch(body, '') if valid_for_multiple_match?
     body
   end
 

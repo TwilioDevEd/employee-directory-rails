@@ -9,11 +9,11 @@ class Suggestion < Struct.new(:cookies)
     cookies[:suggestions] = suggestions.to_yaml
   end
 
-  def fetch
+  def single
     cookies.fetch(:suggestion, '')
   end
 
-  def fetch_all
+  def multiple
     YAML.load(cookies.fetch(:suggestions, '')) || {}
   end
 

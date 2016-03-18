@@ -34,10 +34,17 @@ describe QueryBuilder do
         Suggestion.new(suggestions: { '1' => 'Frankie Muniz' }.to_yaml)
       end
 
-      context 'and when body contains a number' do
+      context 'and the body contains a number' do
         it 'returns the suggestion' do
           query = described_class.new(suggestion, '1').build
           expect(query).to eq('Frankie Muniz')
+        end
+
+        context 'and the number is unavailable' do
+          it 'returns an empty suggestion' do
+            query = described_class.new(suggestion, '2').build
+            expect(query).to eq('')
+          end
         end
       end
 
