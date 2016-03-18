@@ -17,18 +17,18 @@ describe Suggestion do
     end
   end
 
-  describe '#fetch' do
+  describe '#single' do
     it 'retrieves the cookie value for :suggestion' do
       suggestion = described_class.new(suggestion: 'Robert Williams')
-      expect(suggestion.fetch).to eq('Robert Williams')
+      expect(suggestion.single).to eq('Robert Williams')
     end
   end
 
-  describe '#fetch_all' do
+  describe '#multiple' do
     it 'retrieves the cookie value for :suggestions' do
       suggestion = described_class.new(
         suggestions: { '1' => 'Robert Williams' }.to_yaml)
-      expect(suggestion.fetch_all).to eq('1' => 'Robert Williams')
+      expect(suggestion.multiple).to eq('1' => 'Robert Williams')
     end
   end
 
