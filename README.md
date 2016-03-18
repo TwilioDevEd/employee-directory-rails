@@ -83,7 +83,7 @@ a specific port should be easily done with the following command:
 $ ngrok http 3000
 ```
 
-### To Demo
+### How To Demo
 1. Text your twilio number the name "Williams"
 1. Should get the following response:
 
