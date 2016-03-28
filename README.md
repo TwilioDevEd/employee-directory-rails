@@ -31,6 +31,8 @@ This project is built using the [Ruby on Rails](http://rubyonrails.org/) web fra
    $ bundle exec rake db:setup
    ```
 
+   _The data in our seed file was provided by Marvel. © 2016 MARVEL_
+
 1. Make sure the tests succeed
 
    ```bash
@@ -84,24 +86,23 @@ $ ngrok http 3000
 ```
 
 ### How To Demo
-1. Text your twilio number the name "Williams"
+1. Text your twilio number the name "Iron"
 1. Should get the following response:
 
    ```
    We found multiple people, reply with:
-   1 for Robin Williams
-   2 for Robert Williams
+   1 for Iron Man
+   2 for Iron Clad
    Or start over
    ```
 1. Reply with 1
 1. Should get the following response:
 
    ```
-   Robin Williams
-   Facility and Employee Experiences Coordinator
-   San Francisco
+   Iron Man
+   +14155559368
    +1-202-555-0143
-   rnwilliams@example.com
+   IronMan@heroes.example.com
    [the image goes here]
    ```
 
