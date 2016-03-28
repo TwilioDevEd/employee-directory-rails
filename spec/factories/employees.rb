@@ -1,11 +1,8 @@
 FactoryGirl.define do
   factory :employee do
-    first_name   'Robert'
-    last_name    'Williams'
-    job_title    'Facility and Employee Experiences Coordinator'
-    city         'San Francisco'
-    phone_number '+1-202-555-0143'
-    email        { "#{first_name}.#{last_name}@twilio.com".downcase }
-    image_url    'http://example.com/robert-williams.png'
+    name         'Captain America'
+    phone_number '+14155559220'
+    email        { "#{name.gsub(/\s+/, '')}@heroes.example.com" }
+    image_url    'http://i.annihil.us/u/prod/marvel/i/mg/3/50/537ba56d31087.jpg'
   end
 end

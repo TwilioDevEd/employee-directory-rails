@@ -11,22 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160315152119) do
+ActiveRecord::Schema.define(version: 20160328172325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "employees", force: :cascade do |t|
-    t.string   "first_name",   null: false
-    t.string   "last_name",    null: false
-    t.string   "job_title",    null: false
-    t.string   "city",         null: false
+    t.string   "name",         null: false
     t.string   "phone_number", null: false
     t.string   "email",        null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.string   "image_url"
   end
+
+  add_index "employees", ["name"], name: "index_employees_on_name", using: :btree
 
   create_table "trigrams", force: :cascade do |t|
     t.string  "trigram",     limit: 3
