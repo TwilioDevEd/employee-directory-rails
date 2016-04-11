@@ -2,47 +2,47 @@ require 'rails_helper'
 
 describe Employee do
   before do
-    create(:employee, first_name: 'Robin', last_name: 'Williams')
-    create(:employee, first_name: 'Jim', last_name: 'Carrey')
+    create(:employee, name: 'Iron Man')
+    create(:employee, name: 'Captain America')
   end
 
   describe '.perfect_match' do
-    context 'when the search criteria matches with some employee' do
-      subject { Employee.perfect_match('Robin Williams') }
+    context 'when the search criteria matches any employee' do
+      subject { Employee.perfect_match('Iron Man') }
 
-      it 'returns at least one employee' do
+      it 'returns one employee' do
         expect(subject).to have_at_least(1).items
       end
 
-      it 'contains Robin Williams as the first result' do
-        expect(subject.first.name).to eq('Robin Williams')
+      it 'contains Iron Man as the first result' do
+        expect(subject.first.name).to eq('Iron Man')
       end
     end
 
-    context 'when the search criteria does not match with some employee' do
+    context 'when the search criteria does not match any employee' do
       it 'returns an empty array' do
-        result = Employee.perfect_match('Rob Williams')
+        result = Employee.perfect_match('Doctor Strange')
         expect(result).to eq []
       end
     end
   end
 
   describe '.partial_match' do
-    context 'when the search criteria matches with some employee' do
-      subject { Employee.partial_match('Rob Williams') }
+    context 'when the search criteria matches any employee' do
+      subject { Employee.partial_match('America') }
 
       it 'returns at least one employee' do
         expect(subject).to have_at_least(1).items
       end
 
-      it 'contains Robin Williams as the first result' do
-        expect(subject.first.name).to eq('Robin Williams')
+      it 'contains Captain America as the first result' do
+        expect(subject.first.name).to eq('Captain America')
       end
     end
 
-    context 'when the search criteria does not match with some employee' do
+    context 'when the search criteria does not match any employee' do
       it 'returns an empty array' do
-        result = Employee.partial_match('Frankie Muniz')
+        result = Employee.partial_match('Doctor Strange')
         expect(result).to eq []
       end
     end
