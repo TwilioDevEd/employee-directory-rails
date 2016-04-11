@@ -9,24 +9,15 @@
 .wrapper {
   height:100%;
   width:100%;
-}</style><link rel="shortcut icon" href="//twilio.com/bundles/marketing/img/favicons/favicon.ico"><link rel="apple-touch-icon" href="//twilio.com/bundles/marketing/img/favicons/favicon_57.png"><link rel="apple-touch-icon" sizes="72x72" href="//twilio.com/bundles/marketing/img/favicons/favicon_72.png"><link rel="apple-touch-icon" sizes="114x114" href="//twilio.com/bundles/marketing/img/favicons/favicon_114.png"><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"><link rel="stylesheet" href="viewsaurus.css"></head><body><div class="wrapper"><div id="viewsaurus" data-title="Employee Directory Rails"><div class="saurus-panes"><div class="saurus-prose"><div class="saurus-prose-header"><div class="title-outer"><span class="step-title">Employee Directory Rails</span></div></div><div class="saurus-nav-buttons"><div class="saurus-nav-button nav-overview"><div class="saurus-nav-button-inner"><i class="fa fa-fw fa-list"></i></div><div class="nav-divider"></div></div><div class="saurus-nav-button nav-previous"><div class="saurus-nav-button-inner"><a href=""> <i class="fa fa-fw fa-play fa-rotate-180"></i></a></div><div class="nav-divider"></div></div><div class="saurus-nav-button nav-next clickable"><div class="saurus-nav-button-inner"><a href="#1"> <i class="fa fa-fw fa-play"></i></a></div></div><div class="saurus-next-title"><span class="next-title-inner"></span></div></div><div class="saurus-progress-bar"></div><div class="saurus-start"><p>Request employee information from your directory with SMS and Twilio!</p><a href="#0">Start Tutorial</a></div><div class="saurus-content"><div data-title="Warm Transfer Rails" class="chapter"><div data-title="What Are We Building?" data-file="config/routes.rb" class="step"><h2 id="employee-directory">Employee Directory</h2>
-<p><img src="//howtodocs.s3.amazonaws.com/employee-directory.png" alt="Employee Directory"></p>
+}</style><link rel="shortcut icon" href="//twilio.com/bundles/marketing/img/favicons/favicon.ico"><link rel="apple-touch-icon" href="//twilio.com/bundles/marketing/img/favicons/favicon_57.png"><link rel="apple-touch-icon" sizes="72x72" href="//twilio.com/bundles/marketing/img/favicons/favicon_72.png"><link rel="apple-touch-icon" sizes="114x114" href="//twilio.com/bundles/marketing/img/favicons/favicon_114.png"><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"><link rel="stylesheet" href="viewsaurus.css"></head><body><div class="wrapper"><div id="viewsaurus" data-title="Employee Directory Rails"><div class="saurus-panes"><div class="saurus-prose"><div class="saurus-prose-header"><div class="title-outer"><span class="step-title">Employee Directory Rails</span></div></div><div class="saurus-nav-buttons"><div class="saurus-nav-button nav-overview"><div class="saurus-nav-button-inner"><i class="fa fa-fw fa-list"></i></div><div class="nav-divider"></div></div><div class="saurus-nav-button nav-previous"><div class="saurus-nav-button-inner"><a href=""> <i class="fa fa-fw fa-play fa-rotate-180"></i></a></div><div class="nav-divider"></div></div><div class="saurus-nav-button nav-next clickable"><div class="saurus-nav-button-inner"><a href="#1"> <i class="fa fa-fw fa-play"></i></a></div></div><div class="saurus-next-title"><span class="next-title-inner"></span></div></div><div class="saurus-progress-bar"></div><div class="saurus-start"><p>Use Twilio to accept SMS messages and turn them into queries against a PostgreSQL database. This example functions as an Employee Directory where a mobile phone user can send a text message with a partial string of a person's name and it will return their picture and contact information (e-mail address and phone number).</p><a href="#0">Start Tutorial</a></div><div class="saurus-content"><div data-title="Warm Transfer Rails" class="chapter"><div data-title="What Are We Building?" data-file="config/routes.rb" class="step"><h2 id="employee-directory">Employee Directory</h2>
 <p>Learn how to implement an employee directory that you can query using SMS.
 Request information from anyone at your company just by sending a text message
 to a <a href="//www.twilio.com/help/faq/phone-numbers">Twilio Number</a></p>
 <p>Here is how it works at a high level:</p>
-<ol>
-<li><p>We configure one of our Twilio numbers to make a request to our server when an SMS is received.</p>
-</li>
-<li><p>The user sends a SMS with an employee&#39;s name, last name or both to the Twilio number.</p>
-</li>
-<li><p>If an exact match is found, the employee&#39;s information is returned.</p>
-</li>
-<li><p>If no exact match is found, the user is given a list of employee suggestions to pick from.</p>
-</li>
-<li><p>The user replies with the chosen option (number) to receive all the information from the selected employee.</p>
-</li>
-</ol>
+<ul>
+<li>The user sends a SMS with an Employee&#39;s name to the Twilio number.</li>
+<li>The user receives information for the requested Employee.</li>
+</ul>
 <p>Let&#39;s get started!</p>
 <hr>
 <p><strong>See Also:</strong></p>
@@ -34,15 +25,6 @@ to a <a href="//www.twilio.com/help/faq/phone-numbers">Twilio Number</a></p>
 <li><a href="http://guides.rubyonrails.org/getting_started.html">Getting Started with Ruby on Rails</a></li>
 <li><a href="//twilio-ruby.readthedocs.org/en/latest/index.html#getting-started">Getting started with the Twilio Ruby gem</a></li>
 </ul>
-</div><div data-title="Setting Up the SMS Web Hook" data-file="config/routes.rb" data-highlight="2" class="step"><h2 id="setting-up-the-sms-web-hook">Setting Up the SMS Web Hook</h2>
-<p>You will need to configure the SMS webhook of the Twilio number where clients
-will send the SMS asking for an employee&#39;s information.
-<img src="//howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif" alt="Configure SMS"></p>
-<p>You need to expose your localhost using a tool like <a href="//ngrok.com/">ngrok</a>.
-Now your SMS URL should look something like this:</p>
-<pre><code>https://&lt;subdomain&gt;.ngrok.io/directory/search
-</code></pre><p>Make sure you select <code>POST</code> as the request type when setting your URL. This
-is the method the application uses by default.</p>
 </div><div data-title="Handling Twilio's SMS Request" data-file="app/controllers/directory_controller.rb" data-highlight="4-10" class="step"><h2 id="handling-twilio-s-sms-request">Handling Twilio&#39;s SMS Request</h2>
 <p>When your <a href="//www.twilio.com/help/faq/phone-numbers">Twilio Number</a> receives
 an SMS, Twilio will make a POST request to <code>/directory/search</code> asking for <a href="//www.twilio.com/docs/api/twiml">TwiML</a>
@@ -53,7 +35,7 @@ it will send a <a href="//www.twilio.com/docs/api/twiml">TwiML</a> response to T
 to send an SMS <a href="//www.twilio.com/docs/api/twiml/sms/message">Message</a>
 back to the user.</p>
 <p>Let&#39;s take a closer look to each one of the scenarios.</p>
-</div><div data-title="Exact Match" data-file="lib/matchers/perfect_match.rb" data-highlight="2-10" class="step"><h2 id="exact-match">Exact Match</h2>
+</div><div data-title="Exact Match" data-file="lib/matchers/perfect_match.rb" data-highlight="2-10" class="step"><h2 id="finding-an-exact-employee-match">Finding an Exact Employee Match</h2>
 <p>This is the simplest scenario. We query our database expecting to find an
 employee whose first and last name are exactly like the ones we specified in the SMS
 that was sent to our Twilio number. If a match is found, a message containing
@@ -65,7 +47,7 @@ next possible scenario.</p>
 <ul>
 <li><a href="//github.com/TwilioDevEd/employee-directory-rails/blob/c02c9e234e2bbc337c09404e2234138f3f59f02b/lib/employee_finder.rb">How we iterate over possible matching scenarios</a></li>
 </ul>
-</div><div data-title="Single Partial Match" data-file="lib/matchers/single_partial_match.rb" data-highlight="2-11" class="step"><h2 id="single-partial-match">Single Partial Match</h2>
+</div><div data-title="Single Partial Match" data-file="lib/matchers/single_partial_match.rb" data-highlight="2-11" class="step"><h2 id="finding-a-single-partial-employee-match">Finding a Single Partial Employee Match</h2>
 <p>If no employee&#39;s exact match is found on the database we&#39;ll try to find a close
 match using <a href="//github.com/mezis/fuzzily">Fuzzily Gem</a>. In this scenario
 we&#39;ll verify that only 1 partial match is obtained. When a single partial match
@@ -81,7 +63,7 @@ a few steps later.</p>
 <ul>
 <li><a href="//github.com/mezis/fuzzily#usage">Fuzzily Gem Usage</a></li>
 </ul>
-</div><div data-title="Multiple Partial Match" data-file="lib/matchers/multiple_partial_match.rb" data-highlight="2-10" class="step"><h2 id="multiple-partial-match">Multiple Partial Match</h2>
+</div><div data-title="Multiple Partial Match" data-file="lib/matchers/multiple_partial_match.rb" data-highlight="2-10" class="step"><h2 id="finding-multiple-partial-employee-matches">Finding Multiple Partial Employee Matches</h2>
 <p>At this point we have already tried to use the user&#39;s query as an exact employee match
 and a single partial match. Now we&#39;ll try to get a partial match that returns
 more than one result. Just like in the previous scenario, we&#39;ll use
@@ -99,30 +81,14 @@ found on the database.</p>
 <ul>
 <li><a href="//api.rubyonrails.org/classes/ActionDispatch/Cookies.html">Ruby on Rails cookies</a></li>
 </ul>
-</div><div data-title="Storing Suggestions With Cookies" data-file="lib/query_builder.rb" class="step"><h2 id="storing-suggestions-with-cookies">Storing Suggestions With Cookies</h2>
-<p>We&#39;ll finally explain how suggestions are persisted in the application across
-messages. Read more on Twilio Cookies <a href="https://www.twilio.com/blog/2014/07/the-definitive-guide-to-sms-conversation-tracking.html">here</a>.</p>
+</div><div data-title="Storing Suggestions With Cookies" data-file="lib/suggestion.rb" class="step"><h2 id="storing-suggestions-with-cookies">Storing Suggestions With Cookies</h2>
 <p>When a user gets a partial match by searching the employee directory, we
-reply with one or more suggestions. But this is not all there is to it! We need
-to save the list of suggestions given to the user. This way we can send the
-entire information when they pick one of the options.</p>
-<p>For single partial matches we store the name of the suggested employee in a cookie.
-When the user replies <code>yes</code> to this message, we obtain the employee name from the cookie
-and then query the database with that user&#39;s name. All the employee&#39;s information is
-immediately sent to the user.</p>
-<p>Something similar is done for multiple partial matches. The only difference is that
-in this case a hash is stored with all the employees that partially match the request. The
-list of employees is stored with numbers, starting from number one, in order to identify
-the selection.
-After the suggestions are sent to the user, he/she replies with nothing
-more than a number that identifies the selected employee. Using the same logic as before,
-the employee&#39;s information is fetched from the database using the selected name
-and then simply sent to the user.</p>
-<hr>
-<p><strong>See Also:</strong></p>
-<ul>
-<li><a href="https://www.twilio.com/blog/2014/07/the-definitive-guide-to-sms-conversation-tracking.html">Twilio Cookies</a></li>
-</ul>
+reply with one or more suggestions. We need to store this suggestions, so the
+next time the user sends an SMS we know this is not a query for a new employee,
+but a selection of one of the suggestions.</p>
+<p>We&#39;ll use <a href="https://www.twilio.com/blog/2014/07/the-definitive-guide-to-sms-conversation-tracking.html">Twilio Cookies</a> to store suggestions. They will allow
+you to keep track of an SMS conversation between multiple numbers and your Twilio
+powered application.</p>
 </div><div class="step"><h2 id="where-to-next-">Where to next?</h2>
 <p>That&#39;s it! We have just implemented employee directory using Ruby on Rails.
 Now you can get your employee&#39;s information by texting a Twilio number.</p>
@@ -141,6 +107,6 @@ to share with us, we&#39;d love to hear it.
 <textarea class="saurus-file" data-file="lib/matchers/perfect_match.rb" data-mode="ruby">bW9kdWxlIE1hdGNoZXJzCiAgY2xhc3MgUGVyZmVjdE1hdGNoCiAgICBkZWYgc2VsZi5tYXRjaChxdWVyeSwgc3VnZ2VzdGlvbikKICAgICAgZW1wbG95ZWUgPSBFbXBsb3llZS5wZXJmZWN0X21hdGNoKHF1ZXJ5KS5maXJzdAogICAgICBpZiBlbXBsb3llZQogICAgICAgIHN1Z2dlc3Rpb24uZGVzdHJveQogICAgICAgIFtDcmVhdGVNZXNzYWdlLndpdGhfZW1wbG95ZWVfaW5mbyhlbXBsb3llZSksIGVtcGxveWVlLmltYWdlX3VybF0KICAgICAgZW5kCiAgICBlbmQKICBlbmQKZW5kCg==</textarea>
 <textarea class="saurus-file" data-file="lib/matchers/single_partial_match.rb" data-mode="ruby">bW9kdWxlIE1hdGNoZXJzCiAgY2xhc3MgU2luZ2xlUGFydGlhbE1hdGNoCiAgICBkZWYgc2VsZi5tYXRjaChxdWVyeSwgc3VnZ2VzdGlvbikKICAgICAgZW1wbG95ZWVzID0gRW1wbG95ZWUucGFydGlhbF9tYXRjaChxdWVyeSkKICAgICAgaWYgZW1wbG95ZWVzLmNvdW50ID09IDEKICAgICAgICBlbXBsb3llZSA9IGVtcGxveWVlcy5maXJzdAogICAgICAgIHN1Z2dlc3Rpb24uc3RvcmUoZW1wbG95ZWUubmFtZSkKICAgICAgICBbQ3JlYXRlTWVzc2FnZS53aXRoX3N1Z2dlc3Rpb24oZW1wbG95ZWUpLCBuaWxdCiAgICAgIGVuZAogICAgZW5kCiAgZW5kCmVuZAo=</textarea>
 <textarea class="saurus-file" data-file="lib/matchers/multiple_partial_match.rb" data-mode="ruby">bW9kdWxlIE1hdGNoZXJzCiAgY2xhc3MgTXVsdGlwbGVQYXJ0aWFsTWF0Y2gKICAgIGRlZiBzZWxmLm1hdGNoKHF1ZXJ5LCBzdWdnZXN0aW9uKQogICAgICBlbXBsb3llZXMgPSBFbXBsb3llZS5wYXJ0aWFsX21hdGNoKHF1ZXJ5KQogICAgICBpZiBlbXBsb3llZXMuY291bnQgPiAxCiAgICAgICAgc3VnZ2VzdGlvbnMgPSBzdWdnZXN0ZWRfZW1wbG95ZWVzKGVtcGxveWVlcykKICAgICAgICBzdWdnZXN0aW9uLnN0b3JlX2FsbChzdWdnZXN0aW9ucykKICAgICAgICBbQ3JlYXRlTWVzc2FnZS53aXRoX3N1Z2dlc3Rpb25zKHN1Z2dlc3Rpb25zKSwgbmlsXQogICAgICBlbmQKICAgIGVuZAoKICAgIGRlZiBzZWxmLnN1Z2dlc3RlZF9lbXBsb3llZXMoZW1wbG95ZWVzKQogICAgICBlbXBsb3llZXMuZWFjaF93aXRoX2luZGV4LmluamVjdCh7fSkgZG8gfHN1Z2dlc3Rpb25zLCAoZW1wbG95ZWUsIGluZGV4KXwKICAgICAgICBzdWdnZXN0aW9ucy5tZXJnZShIYXNoW2luZGV4LnN1Y2MudG9fcywgZW1wbG95ZWUubmFtZV0pCiAgICAgIGVuZAogICAgZW5kCgogICAgcHJpdmF0ZV9jbGFzc19tZXRob2QgOnN1Z2dlc3RlZF9lbXBsb3llZXMKICBlbmQKZW5kCg==</textarea>
-<textarea class="saurus-file" data-file="lib/query_builder.rb" data-mode="ruby">Y2xhc3MgUXVlcnlCdWlsZGVyCiAgZGVmIGluaXRpYWxpemUoc3VnZ2VzdGlvbiwgYm9keSkKICAgIEBzdWdnZXN0aW9uID0gc3VnZ2VzdGlvbgogICAgQGJvZHkgICAgICAgPSBib2R5LmRvd25jYXNlCiAgZW5kCgogIGRlZiBidWlsZAogICAgcmV0dXJuIHN1Z2dlc3Rpb24uc2luZ2xlICAgICAgICAgICAgICAgICAgIGlmIHZhbGlkX2Zvcl9zaW5nbGVfbWF0Y2g/CiAgICByZXR1cm4gc3VnZ2VzdGlvbi5tdWx0aXBsZS5mZXRjaChib2R5LCAnJykgaWYgdmFsaWRfZm9yX211bHRpcGxlX21hdGNoPwogICAgYm9keQogIGVuZAoKICBwcml2YXRlCgogIGF0dHJfcmVhZGVyIDpzdWdnZXN0aW9uLCA6Ym9keQoKICBkZWYgdmFsaWRfZm9yX3NpbmdsZV9tYXRjaD8KICAgIHN1Z2dlc3Rpb24uc2luZ2xlPyAmJiBib2R5ID09ICd5ZXMnCiAgZW5kCgogIGRlZiB2YWxpZF9mb3JfbXVsdGlwbGVfbWF0Y2g/CiAgICBzdWdnZXN0aW9uLm11bHRpcGxlPyAmJiBib2R5ID1+IC9eXGQkLwogIGVuZAplbmQK</textarea>
+<textarea class="saurus-file" data-file="lib/suggestion.rb" data-mode="ruby">cmVxdWlyZSAneWFtbCcKCmNsYXNzIFN1Z2dlc3Rpb24gPCBTdHJ1Y3QubmV3KDpjb29raWVzKQogIGRlZiBzdG9yZShlbXBsb3llZV9uYW1lKQogICAgY29va2llc1s6c3VnZ2VzdGlvbl0gPSBlbXBsb3llZV9uYW1lCiAgZW5kCgogIGRlZiBzdG9yZV9hbGwoc3VnZ2VzdGlvbnMpCiAgICBjb29raWVzWzpzdWdnZXN0aW9uc10gPSBzdWdnZXN0aW9ucy50b195YW1sCiAgZW5kCgogIGRlZiBzaW5nbGUKICAgIGNvb2tpZXMuZmV0Y2goOnN1Z2dlc3Rpb24sICcnKQogIGVuZAoKICBkZWYgbXVsdGlwbGUKICAgIFlBTUwubG9hZChjb29raWVzLmZldGNoKDpzdWdnZXN0aW9ucywgJycpKSB8fCB7fQogIGVuZAoKICBkZWYgZGVzdHJveQogICAgY29va2llc1s6c3VnZ2VzdGlvbl0gID0gbmlsCiAgICBjb29raWVzWzpzdWdnZXN0aW9uc10gPSBuaWwKICBlbmQKCiAgZGVmIG11bHRpcGxlPwogICAgISFjb29raWVzWzpzdWdnZXN0aW9uc10KICBlbmQKCiAgZGVmIHNpbmdsZT8KICAgICEhY29va2llc1s6c3VnZ2VzdGlvbl0KICBlbmQKZW5kCg==</textarea>
 </div>
 </div><div class="saurus-overview"><ul></ul></div></div><div class="saurus-code"><div class="file-path"><span class="crumb-container"></span><i class="fa fa-fw fa-folder"></i></div><div class="saurus-editor"></div></div><div class="saurus-explorer"><div class="saurus-file-list"></div><a href="https://github.com/TwilioDevEd/employee-directory-rails" target="_blank" class="explorer-get-code"> <i class="fa fa-lg fa-github-square"> </i>View Code on GitHub</a></div></div></div></div><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script><script src="ace/ace.js"></script><script src="ace/theme-monokai.js"></script><script src="viewsaurus.js"></script></body></html>

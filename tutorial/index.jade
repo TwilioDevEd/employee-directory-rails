@@ -5,23 +5,14 @@
     :markdown
       ## Employee Directory
 
-      ![Employee Directory](//howtodocs.s3.amazonaws.com/employee-directory.png)
-
       Learn how to implement an employee directory that you can query using SMS.
       Request information from anyone at your company just by sending a text message
       to a [Twilio Number](//www.twilio.com/help/faq/phone-numbers)
 
       Here is how it works at a high level:
 
-      1. We configure one of our Twilio numbers to make a request to our server when an SMS is received.
-
-      1. The user sends a SMS with an employee's name, last name or both to the Twilio number.
-
-      1. If an exact match is found, the employee's information is returned.
-
-      1. If no exact match is found, the user is given a list of employee suggestions to pick from.
-
-      1. The user replies with the chosen option (number) to receive all the information from the selected employee.
+      - The user sends a SMS with an Employee's name to the Twilio number.
+      - The user receives information for the requested Employee.
 
       Let's get started!
 
@@ -30,27 +21,6 @@
       **See Also:**
       * [Getting Started with Ruby on Rails](http://guides.rubyonrails.org/getting_started.html)
       * [Getting started with the Twilio Ruby gem](//twilio-ruby.readthedocs.org/en/latest/index.html#getting-started)
-
-  .step(
-    data-title="Setting Up the SMS Web Hook",
-    data-file='config/routes.rb',
-    data-highlight='2')
-    :markdown
-      ## Setting Up the SMS Web Hook
-
-      You will need to configure the SMS webhook of the Twilio number where clients
-      will send the SMS asking for an employee's information.
-      ![Configure SMS](//howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)
-
-      You need to expose your localhost using a tool like [ngrok](//ngrok.com/).
-      Now your SMS URL should look something like this:
-
-      ```
-      https://<subdomain>.ngrok.io/directory/search
-      ```
-
-      Make sure you select `POST` as the request type when setting your URL. This
-      is the method the application uses by default.
 
   .step(
     data-title="Handling Twilio's SMS Request",
@@ -78,7 +48,7 @@
     data-file='lib/matchers/perfect_match.rb',
     data-highlight='2-10')
     :markdown
-      ## Exact Match
+      ## Finding an Exact Employee Match
 
       This is the simplest scenario. We query our database expecting to find an
       employee whose first and last name are exactly like the ones we specified in the SMS
@@ -98,7 +68,7 @@
     data-file='lib/matchers/single_partial_match.rb',
     data-highlight='2-11')
     :markdown
-      ## Single Partial Match
+      ## Finding a Single Partial Employee Match
 
       If no employee's exact match is found on the database we'll try to find a close
       match using [Fuzzily Gem](//github.com/mezis/fuzzily). In this scenario
@@ -122,7 +92,7 @@
     data-file='lib/matchers/multiple_partial_match.rb',
     data-highlight='2-10')
     :markdown
-      ## Multiple Partial Match
+      ## Finding Multiple Partial Employee Matches
 
       At this point we have already tried to use the user's query as an exact employee match
       and a single partial match. Now we'll try to get a partial match that returns
@@ -145,36 +115,18 @@
 
   .step(
     data-title="Storing Suggestions With Cookies",
-    data-file='lib/query_builder.rb')
+    data-file='lib/suggestion.rb')
     :markdown
       ## Storing Suggestions With Cookies
 
-      We'll finally explain how suggestions are persisted in the application across
-      messages. Read more on Twilio Cookies [here][Twilio Cookies].
-
       When a user gets a partial match by searching the employee directory, we
-      reply with one or more suggestions. But this is not all there is to it! We need
-      to save the list of suggestions given to the user. This way we can send the
-      entire information when they pick one of the options.
-
-      For single partial matches we store the name of the suggested employee in a cookie.
-      When the user replies `yes` to this message, we obtain the employee name from the cookie
-      and then query the database with that user's name. All the employee's information is
-      immediately sent to the user.
-
-      Something similar is done for multiple partial matches. The only difference is that
-      in this case a hash is stored with all the employees that partially match the request. The
-      list of employees is stored with numbers, starting from number one, in order to identify
-      the selection.
-      After the suggestions are sent to the user, he/she replies with nothing
-      more than a number that identifies the selected employee. Using the same logic as before,
-      the employee's information is fetched from the database using the selected name
-      and then simply sent to the user.
-
-      ---
-
-      **See Also:**
-      * [Twilio Cookies]
+      reply with one or more suggestions. We need to store this suggestions, so the
+      next time the user sends an SMS we know this is not a query for a new employee,
+      but a selection of one of the suggestions.
+      
+      We'll use [Twilio Cookies][Twilio Cookies] to store suggestions. They will allow
+      you to keep track of an SMS conversation between multiple numbers and your Twilio
+      powered application.
 
       [Twilio Cookies]: https://www.twilio.com/blog/2014/07/the-definitive-guide-to-sms-conversation-tracking.html
 
