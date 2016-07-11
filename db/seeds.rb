@@ -1,7 +1,7 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
-Employee.create([
+raw_employees = [
   {
     name: "Spider-Man",
     image_url: "http://i.annihil.us/u/prod/marvel/i/mg/3/50/526548a343e4b.jpg",
@@ -3794,4 +3794,10 @@ Employee.create([
     email: "thor@asgard.example.com",
     phone_number: "+14155559999"
   }
-])
+]
+
+employees = raw_employees.map do |employee_attributes|
+  Employee.new(employee_attributes)
+end
+
+Employee.import employees
