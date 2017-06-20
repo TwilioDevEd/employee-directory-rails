@@ -3801,3 +3801,4 @@ employees = raw_employees.map do |employee_attributes|
 end
 
 Employee.import employees
+Employee.bulk_update_fuzzy_name
