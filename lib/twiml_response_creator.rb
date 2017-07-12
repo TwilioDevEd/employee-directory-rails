@@ -9,6 +9,6 @@ module TwimlResponseCreator
     response = Twilio::TwiML::MessagingResponse.new
     response.append(twiml_message)
 
-    response.to_xml_str
+    response.to_s
   end
 end
