@@ -13,7 +13,7 @@ group :assets do
 end
 
 gem 'haml-rails'
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'twilio-ruby', '>= 5.0.0'
