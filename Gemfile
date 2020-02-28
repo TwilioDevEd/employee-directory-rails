@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.5'
-gem 'rake', '< 11.0'
+gem 'rake', '< 13.0'
 gem 'pg'
 gem 'fuzzily'
 gem 'activerecord-import', '~> 0.15.0'
