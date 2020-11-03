@@ -15,7 +15,7 @@ end
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'jquery-rails'
-gem 'turbolinks'
+gem 'turbolinks', '>= 2.5.3'
 gem 'twilio-ruby', '>= 5.0.0'
 
 group :test do
