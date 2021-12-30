@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.11.3'
 gem 'rake', '< 11.0'
 gem 'pg'
 gem 'fuzzily'
