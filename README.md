@@ -72,7 +72,7 @@ This project is built using the [Ruby on Rails](http://rubyonrails.org/) web fra
   http://<sub-domain>.ngrok.io/directory/search
   ```
 
-  ![Configure SMS](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)
+  [Learn how to configure your Twilio phone number for SMS](https://support.twilio.com/hc/en-us/articles/223136047-Configure-a-Twilio-Phone-Number-to-Receive-and-Respond-to-Messages#h_5fd3801f-8241-421f-ad0f-8fb6c25ba68c)
 
 ### Expose the Application to the Wider Internet
 
