@@ -4,7 +4,7 @@ gem 'rails', '4.2.5'
 gem 'rake', '< 11.0'
 gem 'pg'
 gem 'fuzzily'
-gem 'activerecord-import', '~> 0.15.0'
+gem 'activerecord-import', '~> 1.4.1'
 
 group :assets do
   gem 'sass-rails', '~> 5.0'
